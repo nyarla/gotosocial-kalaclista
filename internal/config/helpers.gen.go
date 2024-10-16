@@ -2,7 +2,7 @@
 // GoToSocial
 // Copyright (C) GoToSocial Authors admin@gotosocial.org
 // SPDX-License-Identifier: AGPL-3.0-or-later
-//
+// 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -3328,19 +3328,13 @@ func (st *ConfigState) SetCacheConversationLastStatusIDsMemRatio(v float64) {
 }
 
 // CacheConversationLastStatusIDsMemRatioFlag returns the flag name for the 'Cache.ConversationLastStatusIDsMemRatio' field
-func CacheConversationLastStatusIDsMemRatioFlag() string {
-	return "cache-conversation-last-status-ids-mem-ratio"
-}
+func CacheConversationLastStatusIDsMemRatioFlag() string { return "cache-conversation-last-status-ids-mem-ratio" }
 
 // GetCacheConversationLastStatusIDsMemRatio safely fetches the value for global configuration 'Cache.ConversationLastStatusIDsMemRatio' field
-func GetCacheConversationLastStatusIDsMemRatio() float64 {
-	return global.GetCacheConversationLastStatusIDsMemRatio()
-}
+func GetCacheConversationLastStatusIDsMemRatio() float64 { return global.GetCacheConversationLastStatusIDsMemRatio() }
 
 // SetCacheConversationLastStatusIDsMemRatio safely sets the value for global configuration 'Cache.ConversationLastStatusIDsMemRatio' field
-func SetCacheConversationLastStatusIDsMemRatio(v float64) {
-	global.SetCacheConversationLastStatusIDsMemRatio(v)
-}
+func SetCacheConversationLastStatusIDsMemRatio(v float64) { global.SetCacheConversationLastStatusIDsMemRatio(v) }
 
 // GetCacheDomainPermissionDraftMemRation safely fetches the Configuration value for state's 'Cache.DomainPermissionDraftMemRation' field
 func (st *ConfigState) GetCacheDomainPermissionDraftMemRation() (v float64) {
@@ -4686,3 +4680,29 @@ func GetRequestIDHeader() string { return global.GetRequestIDHeader() }
 
 // SetRequestIDHeader safely sets the value for global configuration 'RequestIDHeader' field
 func SetRequestIDHeader(v string) { global.SetRequestIDHeader(v) }
+
+// GetKalaclistaAllowedUnauthorizedGet safely fetches the Configuration value for state's 'KalaclistaAllowedUnauthorizedGet' field
+func (st *ConfigState) GetKalaclistaAllowedUnauthorizedGet() (v bool) {
+	st.mutex.RLock()
+	v = st.config.KalaclistaAllowedUnauthorizedGet
+	st.mutex.RUnlock()
+	return
+}
+
+// SetKalaclistaAllowedUnauthorizedGet safely sets the Configuration value for state's 'KalaclistaAllowedUnauthorizedGet' field
+func (st *ConfigState) SetKalaclistaAllowedUnauthorizedGet(v bool) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.KalaclistaAllowedUnauthorizedGet = v
+	st.reloadToViper()
+}
+
+// KalaclistaAllowedUnauthorizedGetFlag returns the flag name for the 'KalaclistaAllowedUnauthorizedGet' field
+func KalaclistaAllowedUnauthorizedGetFlag() string { return "kalaclista-allowed-unauthorized-get" }
+
+// GetKalaclistaAllowedUnauthorizedGet safely fetches the value for global configuration 'KalaclistaAllowedUnauthorizedGet' field
+func GetKalaclistaAllowedUnauthorizedGet() bool { return global.GetKalaclistaAllowedUnauthorizedGet() }
+
+// SetKalaclistaAllowedUnauthorizedGet safely sets the value for global configuration 'KalaclistaAllowedUnauthorizedGet' field
+func SetKalaclistaAllowedUnauthorizedGet(v bool) { global.SetKalaclistaAllowedUnauthorizedGet(v) }
+
