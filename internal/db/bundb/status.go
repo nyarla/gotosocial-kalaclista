@@ -303,8 +303,11 @@ func (s *statusDB) PopulateStatus(ctx context.Context, status *gtsmodel.Status) 
 			gtscontext.SetBarebones(ctx),
 			status.CreatedWithApplicationID,
 		)
+
 		if err != nil {
-			errs.Appendf("error populating status application: %w", err)
+			// quirk hack: my db is broken
+			status.CreatedWithApplicationID = ""
+			status.CreatedWithApplication = nil
 		}
 	}
 
