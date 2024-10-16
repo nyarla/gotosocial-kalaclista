@@ -22,6 +22,7 @@ import (
 	"errors"
 	"time"
 
+	"github.com/superseriousbusiness/gotosocial/internal/config"
 	"github.com/superseriousbusiness/gotosocial/internal/db"
 	"github.com/superseriousbusiness/gotosocial/internal/gtscontext"
 	"github.com/superseriousbusiness/gotosocial/internal/gtserror"
@@ -88,6 +89,13 @@ func (e *Emoji) LogFixCacheStates(ctx context.Context) {
 // UncacheRemote will uncache all remote emoji older than given input time. Context
 // will be checked for `gtscontext.DryRun()` in order to actually perform the action.
 func (e *Emoji) UncacheRemote(ctx context.Context, olderThan time.Time) (int, error) {
+	// kalaclista modded feature
+	// if `kalaclista-keep-emojis-forever` is true,
+	// UncacheRemote is nothing do it.
+	if config.GetKalaclistaKeepEmojisForever() {
+		return 0, nil
+	}
+
 	var total int
 
 	// Drop time by a minute to improve search,
