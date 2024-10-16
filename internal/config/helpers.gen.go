@@ -1021,9 +1021,7 @@ func (st *ConfigState) SetInstanceSubscriptionsProcessFrom(v string) {
 func InstanceSubscriptionsProcessFromFlag() string { return "instance-subscriptions-process-from" }
 
 // GetInstanceSubscriptionsProcessFrom safely fetches the value for global configuration 'InstanceSubscriptionsProcessFrom' field
-func GetInstanceSubscriptionsProcessFrom() string {
-	return global.GetInstanceSubscriptionsProcessFrom()
-}
+func GetInstanceSubscriptionsProcessFrom() string { return global.GetInstanceSubscriptionsProcessFrom() }
 
 // SetInstanceSubscriptionsProcessFrom safely sets the value for global configuration 'InstanceSubscriptionsProcessFrom' field
 func SetInstanceSubscriptionsProcessFrom(v string) { global.SetInstanceSubscriptionsProcessFrom(v) }
@@ -1048,14 +1046,10 @@ func (st *ConfigState) SetInstanceSubscriptionsProcessEvery(v time.Duration) {
 func InstanceSubscriptionsProcessEveryFlag() string { return "instance-subscriptions-process-every" }
 
 // GetInstanceSubscriptionsProcessEvery safely fetches the value for global configuration 'InstanceSubscriptionsProcessEvery' field
-func GetInstanceSubscriptionsProcessEvery() time.Duration {
-	return global.GetInstanceSubscriptionsProcessEvery()
-}
+func GetInstanceSubscriptionsProcessEvery() time.Duration { return global.GetInstanceSubscriptionsProcessEvery() }
 
 // SetInstanceSubscriptionsProcessEvery safely sets the value for global configuration 'InstanceSubscriptionsProcessEvery' field
-func SetInstanceSubscriptionsProcessEvery(v time.Duration) {
-	global.SetInstanceSubscriptionsProcessEvery(v)
-}
+func SetInstanceSubscriptionsProcessEvery(v time.Duration) { global.SetInstanceSubscriptionsProcessEvery(v) }
 
 // GetInstanceStatsMode safely fetches the Configuration value for state's 'InstanceStatsMode' field
 func (st *ConfigState) GetInstanceStatsMode() (v string) {
@@ -2802,14 +2796,10 @@ func (st *ConfigState) SetAdvancedRateLimitExceptionsParsed(v []netip.Prefix) {
 func AdvancedRateLimitExceptionsParsedFlag() string { return "advanced-rate-limit-exceptions-parsed" }
 
 // GetAdvancedRateLimitExceptionsParsed safely fetches the value for global configuration 'AdvancedRateLimitExceptionsParsed' field
-func GetAdvancedRateLimitExceptionsParsed() []netip.Prefix {
-	return global.GetAdvancedRateLimitExceptionsParsed()
-}
+func GetAdvancedRateLimitExceptionsParsed() []netip.Prefix { return global.GetAdvancedRateLimitExceptionsParsed() }
 
 // SetAdvancedRateLimitExceptionsParsed safely sets the value for global configuration 'AdvancedRateLimitExceptionsParsed' field
-func SetAdvancedRateLimitExceptionsParsed(v []netip.Prefix) {
-	global.SetAdvancedRateLimitExceptionsParsed(v)
-}
+func SetAdvancedRateLimitExceptionsParsed(v []netip.Prefix) { global.SetAdvancedRateLimitExceptionsParsed(v) }
 
 // GetAdvancedThrottlingMultiplier safely fetches the Configuration value for state's 'AdvancedThrottlingMultiplier' field
 func (st *ConfigState) GetAdvancedThrottlingMultiplier() (v int) {
@@ -3353,19 +3343,13 @@ func (st *ConfigState) SetCacheDomainPermissionDraftMemRation(v float64) {
 }
 
 // CacheDomainPermissionDraftMemRationFlag returns the flag name for the 'Cache.DomainPermissionDraftMemRation' field
-func CacheDomainPermissionDraftMemRationFlag() string {
-	return "cache-domain-permission-draft-mem-ratio"
-}
+func CacheDomainPermissionDraftMemRationFlag() string { return "cache-domain-permission-draft-mem-ratio" }
 
 // GetCacheDomainPermissionDraftMemRation safely fetches the value for global configuration 'Cache.DomainPermissionDraftMemRation' field
-func GetCacheDomainPermissionDraftMemRation() float64 {
-	return global.GetCacheDomainPermissionDraftMemRation()
-}
+func GetCacheDomainPermissionDraftMemRation() float64 { return global.GetCacheDomainPermissionDraftMemRation() }
 
 // SetCacheDomainPermissionDraftMemRation safely sets the value for global configuration 'Cache.DomainPermissionDraftMemRation' field
-func SetCacheDomainPermissionDraftMemRation(v float64) {
-	global.SetCacheDomainPermissionDraftMemRation(v)
-}
+func SetCacheDomainPermissionDraftMemRation(v float64) { global.SetCacheDomainPermissionDraftMemRation(v) }
 
 // GetCacheDomainPermissionSubscriptionMemRation safely fetches the Configuration value for state's 'Cache.DomainPermissionSubscriptionMemRation' field
 func (st *ConfigState) GetCacheDomainPermissionSubscriptionMemRation() (v float64) {
@@ -3384,19 +3368,13 @@ func (st *ConfigState) SetCacheDomainPermissionSubscriptionMemRation(v float64) 
 }
 
 // CacheDomainPermissionSubscriptionMemRationFlag returns the flag name for the 'Cache.DomainPermissionSubscriptionMemRation' field
-func CacheDomainPermissionSubscriptionMemRationFlag() string {
-	return "cache-domain-permission-subscription-mem-ratio"
-}
+func CacheDomainPermissionSubscriptionMemRationFlag() string { return "cache-domain-permission-subscription-mem-ratio" }
 
 // GetCacheDomainPermissionSubscriptionMemRation safely fetches the value for global configuration 'Cache.DomainPermissionSubscriptionMemRation' field
-func GetCacheDomainPermissionSubscriptionMemRation() float64 {
-	return global.GetCacheDomainPermissionSubscriptionMemRation()
-}
+func GetCacheDomainPermissionSubscriptionMemRation() float64 { return global.GetCacheDomainPermissionSubscriptionMemRation() }
 
 // SetCacheDomainPermissionSubscriptionMemRation safely sets the value for global configuration 'Cache.DomainPermissionSubscriptionMemRation' field
-func SetCacheDomainPermissionSubscriptionMemRation(v float64) {
-	global.SetCacheDomainPermissionSubscriptionMemRation(v)
-}
+func SetCacheDomainPermissionSubscriptionMemRation(v float64) { global.SetCacheDomainPermissionSubscriptionMemRation(v) }
 
 // GetCacheEmojiMemRatio safely fetches the Configuration value for state's 'Cache.EmojiMemRatio' field
 func (st *ConfigState) GetCacheEmojiMemRatio() (v float64) {
@@ -4418,9 +4396,7 @@ func (st *ConfigState) SetCacheWebPushSubscriptionMemRatio(v float64) {
 func CacheWebPushSubscriptionMemRatioFlag() string { return "cache-web-push-subscription-mem-ratio" }
 
 // GetCacheWebPushSubscriptionMemRatio safely fetches the value for global configuration 'Cache.WebPushSubscriptionMemRatio' field
-func GetCacheWebPushSubscriptionMemRatio() float64 {
-	return global.GetCacheWebPushSubscriptionMemRatio()
-}
+func GetCacheWebPushSubscriptionMemRatio() float64 { return global.GetCacheWebPushSubscriptionMemRatio() }
 
 // SetCacheWebPushSubscriptionMemRatio safely sets the value for global configuration 'Cache.WebPushSubscriptionMemRatio' field
 func SetCacheWebPushSubscriptionMemRatio(v float64) { global.SetCacheWebPushSubscriptionMemRatio(v) }
@@ -4442,19 +4418,13 @@ func (st *ConfigState) SetCacheWebPushSubscriptionIDsMemRatio(v float64) {
 }
 
 // CacheWebPushSubscriptionIDsMemRatioFlag returns the flag name for the 'Cache.WebPushSubscriptionIDsMemRatio' field
-func CacheWebPushSubscriptionIDsMemRatioFlag() string {
-	return "cache-web-push-subscription-ids-mem-ratio"
-}
+func CacheWebPushSubscriptionIDsMemRatioFlag() string { return "cache-web-push-subscription-ids-mem-ratio" }
 
 // GetCacheWebPushSubscriptionIDsMemRatio safely fetches the value for global configuration 'Cache.WebPushSubscriptionIDsMemRatio' field
-func GetCacheWebPushSubscriptionIDsMemRatio() float64 {
-	return global.GetCacheWebPushSubscriptionIDsMemRatio()
-}
+func GetCacheWebPushSubscriptionIDsMemRatio() float64 { return global.GetCacheWebPushSubscriptionIDsMemRatio() }
 
 // SetCacheWebPushSubscriptionIDsMemRatio safely sets the value for global configuration 'Cache.WebPushSubscriptionIDsMemRatio' field
-func SetCacheWebPushSubscriptionIDsMemRatio(v float64) {
-	global.SetCacheWebPushSubscriptionIDsMemRatio(v)
-}
+func SetCacheWebPushSubscriptionIDsMemRatio(v float64) { global.SetCacheWebPushSubscriptionIDsMemRatio(v) }
 
 // GetCacheVisibilityMemRatio safely fetches the Configuration value for state's 'Cache.VisibilityMemRatio' field
 func (st *ConfigState) GetCacheVisibilityMemRatio() (v float64) {
@@ -4705,4 +4675,29 @@ func GetKalaclistaAllowedUnauthorizedGet() bool { return global.GetKalaclistaAll
 
 // SetKalaclistaAllowedUnauthorizedGet safely sets the value for global configuration 'KalaclistaAllowedUnauthorizedGet' field
 func SetKalaclistaAllowedUnauthorizedGet(v bool) { global.SetKalaclistaAllowedUnauthorizedGet(v) }
+
+// GetKalaclistaKeepEmojisForever safely fetches the Configuration value for state's 'KalaclistaKeepEmojisForever' field
+func (st *ConfigState) GetKalaclistaKeepEmojisForever() (v bool) {
+	st.mutex.RLock()
+	v = st.config.KalaclistaKeepEmojisForever
+	st.mutex.RUnlock()
+	return
+}
+
+// SetKalaclistaKeepEmojisForever safely sets the Configuration value for state's 'KalaclistaKeepEmojisForever' field
+func (st *ConfigState) SetKalaclistaKeepEmojisForever(v bool) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.KalaclistaKeepEmojisForever = v
+	st.reloadToViper()
+}
+
+// KalaclistaKeepEmojisForeverFlag returns the flag name for the 'KalaclistaKeepEmojisForever' field
+func KalaclistaKeepEmojisForeverFlag() string { return "kalaclista-keep-emojis-forever" }
+
+// GetKalaclistaKeepEmojisForever safely fetches the value for global configuration 'KalaclistaKeepEmojisForever' field
+func GetKalaclistaKeepEmojisForever() bool { return global.GetKalaclistaKeepEmojisForever() }
+
+// SetKalaclistaKeepEmojisForever safely sets the value for global configuration 'KalaclistaKeepEmojisForever' field
+func SetKalaclistaKeepEmojisForever(v bool) { global.SetKalaclistaKeepEmojisForever(v) }
 
