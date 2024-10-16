@@ -2,7 +2,7 @@
 // GoToSocial
 // Copyright (C) GoToSocial Authors admin@gotosocial.org
 // SPDX-License-Identifier: AGPL-3.0-or-later
-//
+// 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -3328,19 +3328,13 @@ func (st *ConfigState) SetCacheConversationLastStatusIDsMemRatio(v float64) {
 }
 
 // CacheConversationLastStatusIDsMemRatioFlag returns the flag name for the 'Cache.ConversationLastStatusIDsMemRatio' field
-func CacheConversationLastStatusIDsMemRatioFlag() string {
-	return "cache-conversation-last-status-ids-mem-ratio"
-}
+func CacheConversationLastStatusIDsMemRatioFlag() string { return "cache-conversation-last-status-ids-mem-ratio" }
 
 // GetCacheConversationLastStatusIDsMemRatio safely fetches the value for global configuration 'Cache.ConversationLastStatusIDsMemRatio' field
-func GetCacheConversationLastStatusIDsMemRatio() float64 {
-	return global.GetCacheConversationLastStatusIDsMemRatio()
-}
+func GetCacheConversationLastStatusIDsMemRatio() float64 { return global.GetCacheConversationLastStatusIDsMemRatio() }
 
 // SetCacheConversationLastStatusIDsMemRatio safely sets the value for global configuration 'Cache.ConversationLastStatusIDsMemRatio' field
-func SetCacheConversationLastStatusIDsMemRatio(v float64) {
-	global.SetCacheConversationLastStatusIDsMemRatio(v)
-}
+func SetCacheConversationLastStatusIDsMemRatio(v float64) { global.SetCacheConversationLastStatusIDsMemRatio(v) }
 
 // GetCacheDomainPermissionDraftMemRation safely fetches the Configuration value for state's 'Cache.DomainPermissionDraftMemRation' field
 func (st *ConfigState) GetCacheDomainPermissionDraftMemRation() (v float64) {
@@ -4686,3 +4680,29 @@ func GetRequestIDHeader() string { return global.GetRequestIDHeader() }
 
 // SetRequestIDHeader safely sets the value for global configuration 'RequestIDHeader' field
 func SetRequestIDHeader(v string) { global.SetRequestIDHeader(v) }
+
+// GetKalaclistaKeepEmojisForever safely fetches the Configuration value for state's 'KalaclistaKeepEmojisForever' field
+func (st *ConfigState) GetKalaclistaKeepEmojisForever() (v bool) {
+	st.mutex.RLock()
+	v = st.config.KalaclistaKeepEmojisForever
+	st.mutex.RUnlock()
+	return
+}
+
+// SetKalaclistaKeepEmojisForever safely sets the Configuration value for state's 'KalaclistaKeepEmojisForever' field
+func (st *ConfigState) SetKalaclistaKeepEmojisForever(v bool) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.KalaclistaKeepEmojisForever = v
+	st.reloadToViper()
+}
+
+// KalaclistaKeepEmojisForeverFlag returns the flag name for the 'KalaclistaKeepEmojisForever' field
+func KalaclistaKeepEmojisForeverFlag() string { return "kalaclista-keep-emojis-forever" }
+
+// GetKalaclistaKeepEmojisForever safely fetches the value for global configuration 'KalaclistaKeepEmojisForever' field
+func GetKalaclistaKeepEmojisForever() bool { return global.GetKalaclistaKeepEmojisForever() }
+
+// SetKalaclistaKeepEmojisForever safely sets the value for global configuration 'KalaclistaKeepEmojisForever' field
+func SetKalaclistaKeepEmojisForever(v bool) { global.SetKalaclistaKeepEmojisForever(v) }
+
