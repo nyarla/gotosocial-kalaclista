@@ -33,7 +33,8 @@ const (
 	sigHeader  = string(httpsig.Signature)
 	authHeader = string(httpsig.Authorization)
 	// untyped error returned by httpsig when no signature is present
-	noSigError = "neither \"" + sigHeader + "\" nor \"" + authHeader + "\" have signature parameters"
+	noSigError   = "neither \"" + sigHeader + "\" nor \"" + authHeader + "\" have signature parameters"
+	bothSigError = "both \"" + sigHeader + "\" and \"" + authHeader + "\" have signature parameters"
 )
 
 // SignatureCheck returns a gin middleware for checking http signatures.
@@ -55,6 +56,12 @@ func SignatureCheck(uriBlocked func(context.Context, *url.URL) (bool, error)) fu
 		// this will error if the request wasn't signed.
 		verifier, err := httpsig.NewVerifier(c.Request)
 		if err != nil {
+			if err.Error() == bothSigError {
+				log.Debugf(ctx, "this request has both http signature headers, but fix it: %s", err)
+				c.Request.Header.Del(authHeader)
+				verifier, err = httpsig.NewVerifier(c.Request)
+			}
+
 			// Only actually *abort* the request with 401
 			// if a signature was present but malformed.
 			// Otherwise proceed with an unsigned request;
@@ -64,7 +71,9 @@ func SignatureCheck(uriBlocked func(context.Context, *url.URL) (bool, error)) fu
 				c.AbortWithStatus(http.StatusUnauthorized)
 			}
 
-			return
+			if verifier == nil {
+				return
+			}
 		}
 
 		// The request was signed! The key ID should be given
