@@ -55,13 +55,13 @@ func SignatureCheck(uriBlocked func(context.Context, *url.URL) (bool, error)) fu
 		// Create the signature verifier from the request;
 		// this will error if the request wasn't signed.
 		verifier, err := httpsig.NewVerifier(c.Request)
-		if err != nil {
-			if err.Error() == bothSigError {
-				log.Debugf(ctx, "this request has both http signature headers, but fix it: %s", err)
-				c.Request.Header.Del(authHeader)
-				verifier, err = httpsig.NewVerifier(c.Request)
-			}
+		if err != nil && err.Error() == bothSigError {
+			log.Debugf(ctx, "this request has both http signature headers, but fix it: %s", err)
+			c.Request.Header.Del(authHeader)
+			verifier, err = httpsig.NewVerifier(c.Request)
+		}
 
+		if err != nil {
 			// Only actually *abort* the request with 401
 			// if a signature was present but malformed.
 			// Otherwise proceed with an unsigned request;
@@ -71,9 +71,7 @@ func SignatureCheck(uriBlocked func(context.Context, *url.URL) (bool, error)) fu
 				c.AbortWithStatus(http.StatusUnauthorized)
 			}
 
-			if verifier == nil {
-				return
-			}
+			return
 		}
 
 		// The request was signed! The key ID should be given
