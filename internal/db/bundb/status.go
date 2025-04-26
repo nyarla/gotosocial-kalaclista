@@ -305,7 +305,9 @@ func (s *statusDB) PopulateStatus(ctx context.Context, status *gtsmodel.Status) 
 			status.CreatedWithApplicationID,
 		)
 		if err != nil && !errors.Is(err, db.ErrNoEntries) {
-			errs.Appendf("error populating status application: %w", err)
+			// dirty hack for my personal instance
+			status.CreatedWithApplicationID = ""
+			status.CreatedWithApplication = nil
 		}
 	}
 
