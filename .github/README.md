@@ -6,13 +6,13 @@ The fork of [gotosocial](https://github.com/superseriousbusiness/gotosocial) for
 
 - Improve federation compatibility for doesn't support `AUTHORIZED_FETCH` instance
   - this feature make more compatibility to federate other instances
-  - however, this featur make weakness about GoToSocial privacy guards
+  - however, this feature make weakness about GoToSocial privacy guards
 - Keep remmote emojis forever
   - this feature keeps remote emojis infinity times
   - this feature patch to vanish of remote emojis, but it has risk about copyrights
-- For personal hack for broken databases
+- For personal hack to broken databases
   - my instance has broken tables about posted by client
-  - this is workaround for cannot looking the old posts
+  - this is workaround for cannot looking the old posts from GoToSocial frontend
 
 #### Configurations
 
