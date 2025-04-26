@@ -4656,3 +4656,28 @@ func GetRequestIDHeader() string { return global.GetRequestIDHeader() }
 
 // SetRequestIDHeader safely sets the value for global configuration 'RequestIDHeader' field
 func SetRequestIDHeader(v string) { global.SetRequestIDHeader(v) }
+
+// GetKalaclistaKeepEmojisForever safely fetches the Configuration value for state's 'KalaclistaKeepEmojisForever' field
+func (st *ConfigState) GetKalaclistaKeepEmojisForever() (v bool) {
+	st.mutex.RLock()
+	v = st.config.KalaclistaKeepEmojisForever
+	st.mutex.RUnlock()
+	return
+}
+
+// SetKalaclistaKeepEmojisForever safely sets the Configuration value for state's 'KalaclistaKeepEmojisForever' field
+func (st *ConfigState) SetKalaclistaKeepEmojisForever(v bool) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.KalaclistaKeepEmojisForever = v
+	st.reloadToViper()
+}
+
+// KalaclistaKeepEmojisForeverFlag returns the flag name for the 'KalaclistaKeepEmojisForever' field
+func KalaclistaKeepEmojisForeverFlag() string { return "kalaclista-keep-emojis-forever" }
+
+// GetKalaclistaKeepEmojisForever safely fetches the value for global configuration 'KalaclistaKeepEmojisForever' field
+func GetKalaclistaKeepEmojisForever() bool { return global.GetKalaclistaKeepEmojisForever() }
+
+// SetKalaclistaKeepEmojisForever safely sets the value for global configuration 'KalaclistaKeepEmojisForever' field
+func SetKalaclistaKeepEmojisForever(v bool) { global.SetKalaclistaKeepEmojisForever(v) }

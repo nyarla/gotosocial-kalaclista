@@ -192,6 +192,9 @@ type Configuration struct {
 	AdminMediaListRemoteOnly bool   `name:"remote-only" usage:"list only remote attachments/emojis; if specified then local-only cannot also be true"`
 
 	RequestIDHeader string `name:"request-id-header" usage:"Header to extract the Request ID from. Eg.,'X-Request-Id'."`
+
+	// for kalaclista mod
+	KalaclistaKeepEmojisForever bool `name:"kalaclista-keep-emojis-forever" usage:"Keep emojis forever"`
 }
 
 type HTTPClientConfiguration struct {
