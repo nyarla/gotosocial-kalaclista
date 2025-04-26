@@ -20,14 +20,20 @@ package fedi
 import (
 	"context"
 	"fmt"
+	"net/http"
 
 	"github.com/superseriousbusiness/gotosocial/internal/ap"
+	"github.com/superseriousbusiness/gotosocial/internal/config"
 	"github.com/superseriousbusiness/gotosocial/internal/gtserror"
 )
 
 // EmojiGet handles the GET for a federated emoji originating from this instance.
 func (p *Processor) EmojiGet(ctx context.Context, requestedEmojiID string) (interface{}, gtserror.WithCode) {
 	if _, errWithCode := p.federator.AuthenticateFederatedRequest(ctx, ""); errWithCode != nil {
+		if !(config.GetKalaclistaAllowedUnauthorizedGet() && errWithCode.Code() == http.StatusUnauthorized) {
+			return nil, errWithCode
+		}
+
 		return nil, errWithCode
 	}
 

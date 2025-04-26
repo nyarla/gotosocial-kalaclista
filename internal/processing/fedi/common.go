@@ -20,8 +20,10 @@ package fedi
 import (
 	"context"
 	"errors"
+	"net/http"
 	"net/url"
 
+	"github.com/superseriousbusiness/gotosocial/internal/config"
 	"github.com/superseriousbusiness/gotosocial/internal/db"
 	"github.com/superseriousbusiness/gotosocial/internal/gtserror"
 	"github.com/superseriousbusiness/gotosocial/internal/gtsmodel"
@@ -51,6 +53,12 @@ func (p *Processor) authenticate(ctx context.Context, requestedUser string) (*co
 	// get requesting account, dereferencing if necessary.
 	pubKeyAuth, errWithCode := p.federator.AuthenticateFederatedRequest(ctx, requestedUser)
 	if errWithCode != nil {
+		if config.GetKalaclistaAllowedUnauthorizedGet() && errWithCode.Code() == http.StatusUnauthorized {
+			return &commonAuth{
+				receivingAcct: receiver,
+			}, nil
+		}
+
 		return nil, errWithCode
 	}
 
