@@ -21,9 +21,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"net/http"
 	"net/url"
 
 	"code.superseriousbusiness.org/gotosocial/internal/ap"
+	"code.superseriousbusiness.org/gotosocial/internal/config"
 	"code.superseriousbusiness.org/gotosocial/internal/db"
 	"code.superseriousbusiness.org/gotosocial/internal/gtserror"
 	"code.superseriousbusiness.org/gotosocial/internal/uris"
@@ -67,6 +69,15 @@ func (p *Processor) UserGet(ctx context.Context, requestedUsername string, reque
 	// we can serve a more complete profile.
 	pubKeyAuth, errWithCode := p.federator.AuthenticateFederatedRequest(ctx, requestedUsername)
 	if errWithCode != nil {
+		if config.GetKalaclistaAllowedUnauthorizedGet() && errWithCode.Code() == http.StatusUnauthorized {
+			person, err := p.converter.AccountToAS(ctx, receiver)
+			if err != nil {
+				err := gtserror.Newf("error converting account: %w", err)
+				return nil, gtserror.NewErrorInternalError(err)
+			}
+
+			return data(person)
+		}
 		return nil, errWithCode // likely 401
 	}
 
