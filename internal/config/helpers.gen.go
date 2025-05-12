@@ -4681,3 +4681,28 @@ func GetRequestIDHeader() string { return global.GetRequestIDHeader() }
 
 // SetRequestIDHeader safely sets the value for global configuration 'RequestIDHeader' field
 func SetRequestIDHeader(v string) { global.SetRequestIDHeader(v) }
+
+// GetKalaclistaAllowedUnauthorizedGet safely fetches the Configuration value for state's 'KalaclistaAllowedUnauthorizedGet' field
+func (st *ConfigState) GetKalaclistaAllowedUnauthorizedGet() (v bool) {
+	st.mutex.RLock()
+	v = st.config.KalaclistaAllowedUnauthorizedGet
+	st.mutex.RUnlock()
+	return
+}
+
+// SetKalaclistaAllowedUnauthorizedGet safely sets the Configuration value for state's 'KalaclistaAllowedUnauthorizedGet' field
+func (st *ConfigState) SetKalaclistaAllowedUnauthorizedGet(v bool) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.KalaclistaAllowedUnauthorizedGet = v
+	st.reloadToViper()
+}
+
+// KalaclistaAllowedUnauthorizedGetFlag returns the flag name for the 'KalaclistaAllowedUnauthorizedGet' field
+func KalaclistaAllowedUnauthorizedGetFlag() string { return "kalaclista-allowed-unauthorized-get" }
+
+// GetKalaclistaAllowedUnauthorizedGet safely fetches the value for global configuration 'KalaclistaAllowedUnauthorizedGet' field
+func GetKalaclistaAllowedUnauthorizedGet() bool { return global.GetKalaclistaAllowedUnauthorizedGet() }
+
+// SetKalaclistaAllowedUnauthorizedGet safely sets the value for global configuration 'KalaclistaAllowedUnauthorizedGet' field
+func SetKalaclistaAllowedUnauthorizedGet(v bool) { global.SetKalaclistaAllowedUnauthorizedGet(v) }
