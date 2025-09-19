@@ -35,7 +35,7 @@ const (
 	nodeInfoSoftwareName            = "gotosocial"
 	nodeInfo20Rel                   = "http://nodeinfo.diaspora.software/ns/schema/2.0"
 	nodeInfo21Rel                   = "http://nodeinfo.diaspora.software/ns/schema/2.1"
-	nodeInfoRepo                    = "https://codeberg.org/superseriousbusiness/gotosocial"
+	nodeInfoRepo                    = "https://github.com/nyarla/gotosocial-kalaclista"
 	nodeInfoHomepage                = "https://docs.gotosocial.org"
 	webfingerProfilePage            = "http://webfinger.net/rel/profile-page"
 	webFingerProfilePageContentType = "text/html"
