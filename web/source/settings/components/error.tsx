@@ -24,13 +24,6 @@ import React, { ReactNode } from "react";
 function ErrorFallback({ error, resetErrorBoundary }) {
 	return (
 		<div className="error">
-			<p>
-				{"An error occured, please report this on the "}
-				<a href="https://codeberg.org/superseriousbusiness/gotosocial/issues">GoToSocial issue tracker</a>
-				{" or "}
-				<a href="https://matrix.to/#/#gotosocial-help:superseriousbusiness.org">Matrix support room</a>.
-				<br />Include the details below:
-			</p>
 			<div className="details">
 				<pre>
 					{error.name}: {error.message}
