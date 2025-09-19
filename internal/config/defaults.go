@@ -268,4 +268,7 @@ var Defaults = Configuration{
 	RequestIDHeader: "X-Request-Id",
 
 	LogClientIP: true,
+
+	// for kalaclista-flavoured
+	KalaclistaTurnOffAuthorizedFetch: true,
 }

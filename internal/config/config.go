@@ -188,6 +188,9 @@ type Configuration struct {
 	AdminMediaListRemoteOnly bool   `name:"remote-only" usage:"list only remote attachments/emojis; if specified then local-only cannot also be true" ephemeral:"yes"`
 	TestrigSkipDBSetup       bool   `name:"skip-db-setup" usage:"skip testrig database setup with population of test models" ephemeral:"yes"`
 	TestrigSkipDBTeardown    bool   `name:"skip-db-teardown" usage:"skip testrig database teardown (i.e. data deletion and tables dropped)" ephemeral:"yes"`
+
+	// for kalaclista-flavoured
+	KalaclistaTurnOffAuthorizedFetch bool `name:"kalaclista-turnoff-authorized-fetch" usage:"skip authorization if another instance message doesn't have httpsig"`
 }
 
 type HTTPClientConfiguration struct {
