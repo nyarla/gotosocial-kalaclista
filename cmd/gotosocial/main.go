@@ -43,7 +43,7 @@ func main() {
 	rootCmd := new(cobra.Command)
 	rootCmd.Use = "gotosocial"
 	rootCmd.Short = "GoToSocial - a fediverse social media server"
-	rootCmd.Long = "GoToSocial - a fediverse social media server\n\nFor help, see: https://docs.gotosocial.org.\n\nCode: https://codeberg.org/superseriousbusiness/gotosocial"
+	rootCmd.Long = "GoToSocial - a fediverse social media server\n\nFor help, see: https://docs.gotosocial.org.\n\nCode: https://github.com/nyarla/gotosocial-kalaclista"
 	rootCmd.Version = version
 	rootCmd.SilenceErrors = true
 	rootCmd.SilenceUsage = true
