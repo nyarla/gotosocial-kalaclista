@@ -230,6 +230,7 @@ const (
 	AdminMediaListRemoteOnlyFlag                  = "remote-only"
 	TestrigSkipDBSetupFlag                        = "skip-db-setup"
 	TestrigSkipDBTeardownFlag                     = "skip-db-teardown"
+	KalaclistaTurnOffAuthorizedFetchFlag          = "kalaclista-turnoff-authorized-fetch"
 )
 
 func (cfg *Configuration) RegisterFlags(flags *pflag.FlagSet) {
@@ -425,10 +426,11 @@ func (cfg *Configuration) RegisterFlags(flags *pflag.FlagSet) {
 	flags.Float64("cache-mutes-mem-ratio", cfg.Cache.MutesMemRatio, "")
 	flags.Float64("cache-status-filter-mem-ratio", cfg.Cache.StatusFilterMemRatio, "")
 	flags.Float64("cache-visibility-mem-ratio", cfg.Cache.VisibilityMemRatio, "")
+	flags.Bool("kalaclista-turnoff-authorized-fetch", cfg.KalaclistaTurnOffAuthorizedFetch, "skip authorization if another instance message doesn't have httpsig")
 }
 
 func (cfg *Configuration) MarshalMap() map[string]any {
-	cfgmap := make(map[string]any, 201)
+	cfgmap := make(map[string]any, 202)
 	cfgmap["log-level"] = cfg.LogLevel
 	cfgmap["log-format"] = cfg.LogFormat
 	cfgmap["log-timestamp-format"] = cfg.LogTimestampFormat
@@ -630,6 +632,7 @@ func (cfg *Configuration) MarshalMap() map[string]any {
 	cfgmap["remote-only"] = cfg.AdminMediaListRemoteOnly
 	cfgmap["skip-db-setup"] = cfg.TestrigSkipDBSetup
 	cfgmap["skip-db-teardown"] = cfg.TestrigSkipDBTeardown
+	cfgmap["kalaclista-turnoff-authorized-fetch"] = cfg.KalaclistaTurnOffAuthorizedFetch
 	return cfgmap
 }
 
@@ -2278,6 +2281,14 @@ func (cfg *Configuration) UnmarshalMap(cfgmap map[string]any) error {
 		cfg.TestrigSkipDBTeardown, err = cast.ToBoolE(ival)
 		if err != nil {
 			return fmt.Errorf("error casting %#v -> bool for 'skip-db-teardown': %w", ival, err)
+		}
+	}
+
+	if ival, ok := cfgmap["kalaclista-turnoff-authorized-fetch"]; ok {
+		var err error
+		cfg.KalaclistaTurnOffAuthorizedFetch, err = cast.ToBoolE(ival)
+		if err != nil {
+			return fmt.Errorf("error casting %#v -> bool for 'kalaclista-turnoff-authorized-fetch': %w", ival, err)
 		}
 	}
 
@@ -6729,6 +6740,28 @@ func GetTestrigSkipDBTeardown() bool { return global.GetTestrigSkipDBTeardown() 
 
 // SetTestrigSkipDBTeardown safely sets the value for global configuration 'TestrigSkipDBTeardown' field
 func SetTestrigSkipDBTeardown(v bool) { global.SetTestrigSkipDBTeardown(v) }
+
+// GetKalaclistaTurnOffAuthorizedFetch safely fetches the Configuration value for state's 'KalaclistaTurnOffAuthorizedFetch' field
+func (st *ConfigState) GetKalaclistaTurnOffAuthorizedFetch() (v bool) {
+	st.mutex.RLock()
+	v = st.config.KalaclistaTurnOffAuthorizedFetch
+	st.mutex.RUnlock()
+	return
+}
+
+// SetKalaclistaTurnOffAuthorizedFetch safely sets the Configuration value for state's 'KalaclistaTurnOffAuthorizedFetch' field
+func (st *ConfigState) SetKalaclistaTurnOffAuthorizedFetch(v bool) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.KalaclistaTurnOffAuthorizedFetch = v
+	st.reloadToViper()
+}
+
+// GetKalaclistaTurnOffAuthorizedFetch safely fetches the value for global configuration 'KalaclistaTurnOffAuthorizedFetch' field
+func GetKalaclistaTurnOffAuthorizedFetch() bool { return global.GetKalaclistaTurnOffAuthorizedFetch() }
+
+// SetKalaclistaTurnOffAuthorizedFetch safely sets the value for global configuration 'KalaclistaTurnOffAuthorizedFetch' field
+func SetKalaclistaTurnOffAuthorizedFetch(v bool) { global.SetKalaclistaTurnOffAuthorizedFetch(v) }
 
 // GetTotalOfMemRatios safely fetches the combined value for all the state's mem ratio fields
 func (st *ConfigState) GetTotalOfMemRatios() (total float64) {
