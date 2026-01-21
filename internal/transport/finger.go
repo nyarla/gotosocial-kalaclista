@@ -112,7 +112,7 @@ func (t *transport) Finger(ctx context.Context, targetUsername string, targetDom
 		}
 
 		// Ensure that the incoming request content-type is expected.
-		if ct := rsp.Header.Get("Content-Type"); !apiutil.JSONJRDContentType(ct) {
+		if ct := rsp.Header.Get("Content-Type"); !(apiutil.JSONJRDContentType(ct) || apiutil.JSONVariantContentType(ct)) {
 			err := gtserror.Newf("non webfinger type response: %s", ct)
 			return nil, gtserror.SetMalformed(err)
 		}
