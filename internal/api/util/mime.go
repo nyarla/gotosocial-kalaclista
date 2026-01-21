@@ -42,6 +42,13 @@ const (
 	UTF8              = `utf-8`
 )
 
+func JSONVariantContentType(ct string) bool {
+	p := splitContentType(ct)
+	p, ok := isUTF8ContentType(p)
+	return ok && len(p) == 1 &&
+		(p[0] == AppJSON || (strings.HasPrefix(p[0], `application/`) && strings.HasSuffix(p[0], `+json`)))
+}
+
 // JSONContentType returns whether is application/json(;charset=utf-8)? content-type.
 func JSONContentType(ct string) bool {
 	p := splitContentType(ct)
