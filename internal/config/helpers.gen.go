@@ -231,6 +231,7 @@ const (
 	TestrigSkipDBSetupFlag                        = "skip-db-setup"
 	TestrigSkipDBTeardownFlag                     = "skip-db-teardown"
 	KalaclistaFilterStatusesByDateTimeFlag        = "kalaclista-filter-statuses-by-datetime"
+	KalaclistaAcceptUnauthorizedFetchFlag         = "kalaclista-accept-unauthorized-fetch"
 )
 
 func (cfg *Configuration) RegisterFlags(flags *pflag.FlagSet) {
@@ -427,10 +428,11 @@ func (cfg *Configuration) RegisterFlags(flags *pflag.FlagSet) {
 	flags.Float64("cache-status-filter-mem-ratio", cfg.Cache.StatusFilterMemRatio, "")
 	flags.Float64("cache-visibility-mem-ratio", cfg.Cache.VisibilityMemRatio, "")
 	flags.StringSlice("kalaclista-filter-statuses-by-datetime", cfg.KalaclistaFilterStatusesByDateTime, "filter statuses by datetime on profile page")
+	flags.Bool("kalaclista-accept-unauthorized-fetch", cfg.KalaclistaAcceptUnauthorizedFetch, "Accept unauthorized GET requests")
 }
 
 func (cfg *Configuration) MarshalMap() map[string]any {
-	cfgmap := make(map[string]any, 202)
+	cfgmap := make(map[string]any, 203)
 	cfgmap["log-level"] = cfg.LogLevel
 	cfgmap["log-format"] = cfg.LogFormat
 	cfgmap["log-timestamp-format"] = cfg.LogTimestampFormat
@@ -633,6 +635,7 @@ func (cfg *Configuration) MarshalMap() map[string]any {
 	cfgmap["skip-db-setup"] = cfg.TestrigSkipDBSetup
 	cfgmap["skip-db-teardown"] = cfg.TestrigSkipDBTeardown
 	cfgmap["kalaclista-filter-statuses-by-datetime"] = cfg.KalaclistaFilterStatusesByDateTime
+	cfgmap["kalaclista-accept-unauthorized-fetch"] = cfg.KalaclistaAcceptUnauthorizedFetch
 	return cfgmap
 }
 
@@ -2289,6 +2292,14 @@ func (cfg *Configuration) UnmarshalMap(cfgmap map[string]any) error {
 		cfg.KalaclistaFilterStatusesByDateTime, err = toStringSlice(ival)
 		if err != nil {
 			return fmt.Errorf("error casting %#v -> []string for 'kalaclista-filter-statuses-by-datetime': %w", ival, err)
+		}
+	}
+
+	if ival, ok := cfgmap["kalaclista-accept-unauthorized-fetch"]; ok {
+		var err error
+		cfg.KalaclistaAcceptUnauthorizedFetch, err = cast.ToBoolE(ival)
+		if err != nil {
+			return fmt.Errorf("error casting %#v -> bool for 'kalaclista-accept-unauthorized-fetch': %w", ival, err)
 		}
 	}
 
@@ -6766,6 +6777,30 @@ func GetKalaclistaFilterStatusesByDateTime() []string {
 func SetKalaclistaFilterStatusesByDateTime(v []string) {
 	global.SetKalaclistaFilterStatusesByDateTime(v)
 }
+
+// GetKalaclistaAcceptUnauthorizedFetch safely fetches the Configuration value for state's 'KalaclistaAcceptUnauthorizedFetch' field
+func (st *ConfigState) GetKalaclistaAcceptUnauthorizedFetch() (v bool) {
+	st.mutex.RLock()
+	v = st.config.KalaclistaAcceptUnauthorizedFetch
+	st.mutex.RUnlock()
+	return
+}
+
+// SetKalaclistaAcceptUnauthorizedFetch safely sets the Configuration value for state's 'KalaclistaAcceptUnauthorizedFetch' field
+func (st *ConfigState) SetKalaclistaAcceptUnauthorizedFetch(v bool) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.KalaclistaAcceptUnauthorizedFetch = v
+	st.reloadToViper()
+}
+
+// GetKalaclistaAcceptUnauthorizedFetch safely fetches the value for global configuration 'KalaclistaAcceptUnauthorizedFetch' field
+func GetKalaclistaAcceptUnauthorizedFetch() bool {
+	return global.GetKalaclistaAcceptUnauthorizedFetch()
+}
+
+// SetKalaclistaAcceptUnauthorizedFetch safely sets the value for global configuration 'KalaclistaAcceptUnauthorizedFetch' field
+func SetKalaclistaAcceptUnauthorizedFetch(v bool) { global.SetKalaclistaAcceptUnauthorizedFetch(v) }
 
 // GetTotalOfMemRatios safely fetches the combined value for all the state's mem ratio fields
 func (st *ConfigState) GetTotalOfMemRatios() (total float64) {

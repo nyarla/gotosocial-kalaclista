@@ -190,6 +190,7 @@ type Configuration struct {
 	TestrigSkipDBTeardown    bool   `name:"skip-db-teardown" usage:"skip testrig database teardown (i.e. data deletion and tables dropped)" ephemeral:"yes"`
 
 	KalaclistaFilterStatusesByDateTime []string `name:"kalaclista-filter-statuses-by-datetime" usage:"filter statuses by datetime on profile page"`
+	KalaclistaAcceptUnauthorizedFetch  bool     `name:"kalaclista-accept-unauthorized-fetch" usage:"Accept unauthorized GET requests"`
 }
 
 type HTTPClientConfiguration struct {

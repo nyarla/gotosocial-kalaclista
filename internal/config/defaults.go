@@ -270,4 +270,5 @@ var Defaults = Configuration{
 	LogClientIP: true,
 
 	KalaclistaFilterStatusesByDateTime: make([]string, 0),
+	KalaclistaAcceptUnauthorizedFetch:  true,
 }
