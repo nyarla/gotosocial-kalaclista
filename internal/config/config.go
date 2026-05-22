@@ -188,6 +188,8 @@ type Configuration struct {
 	AdminMediaListRemoteOnly bool   `name:"remote-only" usage:"list only remote attachments/emojis; if specified then local-only cannot also be true" ephemeral:"yes"`
 	TestrigSkipDBSetup       bool   `name:"skip-db-setup" usage:"skip testrig database setup with population of test models" ephemeral:"yes"`
 	TestrigSkipDBTeardown    bool   `name:"skip-db-teardown" usage:"skip testrig database teardown (i.e. data deletion and tables dropped)" ephemeral:"yes"`
+
+	KalaclistaFilterStatusesByDateTime []string `name:"kalaclista-filter-statuses-by-datetime" usage:"filter statuses by datetime on profile page"`
 }
 
 type HTTPClientConfiguration struct {

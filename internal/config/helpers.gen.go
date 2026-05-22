@@ -230,6 +230,7 @@ const (
 	AdminMediaListRemoteOnlyFlag                  = "remote-only"
 	TestrigSkipDBSetupFlag                        = "skip-db-setup"
 	TestrigSkipDBTeardownFlag                     = "skip-db-teardown"
+	KalaclistaFilterStatusesByDateTimeFlag        = "kalaclista-filter-statuses-by-datetime"
 )
 
 func (cfg *Configuration) RegisterFlags(flags *pflag.FlagSet) {
@@ -425,10 +426,11 @@ func (cfg *Configuration) RegisterFlags(flags *pflag.FlagSet) {
 	flags.Float64("cache-mutes-mem-ratio", cfg.Cache.MutesMemRatio, "")
 	flags.Float64("cache-status-filter-mem-ratio", cfg.Cache.StatusFilterMemRatio, "")
 	flags.Float64("cache-visibility-mem-ratio", cfg.Cache.VisibilityMemRatio, "")
+	flags.StringSlice("kalaclista-filter-statuses-by-datetime", cfg.KalaclistaFilterStatusesByDateTime, "filter statuses by datetime on profile page")
 }
 
 func (cfg *Configuration) MarshalMap() map[string]any {
-	cfgmap := make(map[string]any, 201)
+	cfgmap := make(map[string]any, 202)
 	cfgmap["log-level"] = cfg.LogLevel
 	cfgmap["log-format"] = cfg.LogFormat
 	cfgmap["log-timestamp-format"] = cfg.LogTimestampFormat
@@ -630,6 +632,7 @@ func (cfg *Configuration) MarshalMap() map[string]any {
 	cfgmap["remote-only"] = cfg.AdminMediaListRemoteOnly
 	cfgmap["skip-db-setup"] = cfg.TestrigSkipDBSetup
 	cfgmap["skip-db-teardown"] = cfg.TestrigSkipDBTeardown
+	cfgmap["kalaclista-filter-statuses-by-datetime"] = cfg.KalaclistaFilterStatusesByDateTime
 	return cfgmap
 }
 
@@ -2278,6 +2281,14 @@ func (cfg *Configuration) UnmarshalMap(cfgmap map[string]any) error {
 		cfg.TestrigSkipDBTeardown, err = cast.ToBoolE(ival)
 		if err != nil {
 			return fmt.Errorf("error casting %#v -> bool for 'skip-db-teardown': %w", ival, err)
+		}
+	}
+
+	if ival, ok := cfgmap["kalaclista-filter-statuses-by-datetime"]; ok {
+		var err error
+		cfg.KalaclistaFilterStatusesByDateTime, err = toStringSlice(ival)
+		if err != nil {
+			return fmt.Errorf("error casting %#v -> []string for 'kalaclista-filter-statuses-by-datetime': %w", ival, err)
 		}
 	}
 
@@ -6729,6 +6740,32 @@ func GetTestrigSkipDBTeardown() bool { return global.GetTestrigSkipDBTeardown() 
 
 // SetTestrigSkipDBTeardown safely sets the value for global configuration 'TestrigSkipDBTeardown' field
 func SetTestrigSkipDBTeardown(v bool) { global.SetTestrigSkipDBTeardown(v) }
+
+// GetKalaclistaFilterStatusesByDateTime safely fetches the Configuration value for state's 'KalaclistaFilterStatusesByDateTime' field
+func (st *ConfigState) GetKalaclistaFilterStatusesByDateTime() (v []string) {
+	st.mutex.RLock()
+	v = st.config.KalaclistaFilterStatusesByDateTime
+	st.mutex.RUnlock()
+	return
+}
+
+// SetKalaclistaFilterStatusesByDateTime safely sets the Configuration value for state's 'KalaclistaFilterStatusesByDateTime' field
+func (st *ConfigState) SetKalaclistaFilterStatusesByDateTime(v []string) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.KalaclistaFilterStatusesByDateTime = v
+	st.reloadToViper()
+}
+
+// GetKalaclistaFilterStatusesByDateTime safely fetches the value for global configuration 'KalaclistaFilterStatusesByDateTime' field
+func GetKalaclistaFilterStatusesByDateTime() []string {
+	return global.GetKalaclistaFilterStatusesByDateTime()
+}
+
+// SetKalaclistaFilterStatusesByDateTime safely sets the value for global configuration 'KalaclistaFilterStatusesByDateTime' field
+func SetKalaclistaFilterStatusesByDateTime(v []string) {
+	global.SetKalaclistaFilterStatusesByDateTime(v)
+}
 
 // GetTotalOfMemRatios safely fetches the combined value for all the state's mem ratio fields
 func (st *ConfigState) GetTotalOfMemRatios() (total float64) {
