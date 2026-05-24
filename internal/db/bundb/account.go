@@ -42,31 +42,6 @@ import (
 	"github.com/uptrace/bun/dialect"
 )
 
-var _datetimeFilterRules = make(map[string]time.Duration)
-
-func init() {
-	for _, cfg := range config.GetKalaclistaFilterStatusesByDateTime() {
-		data := strings.SplitN(cfg, ":", 2)
-		if len(data) != 2 {
-			continue
-		}
-
-		username, duration := data[0], data[1]
-
-		if username == "" {
-			continue
-		}
-
-		if duration == "" {
-			continue
-		}
-
-		if hours, err := strconv.ParseInt(duration, 10, 64); err == nil && hours != 0 {
-			_datetimeFilterRules[username] = time.Duration(hours)
-		}
-	}
-}
-
 type accountDB struct {
 	db    *bun.DB
 	state *state.State
@@ -1214,12 +1189,34 @@ func (a *accountDB) accountWebStatusesCommonSelect(
 }
 
 func (a *accountDB) applyDatetimeFilter(username string, query *bun.SelectQuery) *bun.SelectQuery {
-	hours, ok := _datetimeFilterRules[username]
-	if !ok {
+	users := config.GetKalaclistaFilterStatusesByDateTime()
+	if len(users) == 0 {
 		return query
 	}
 
-	return query.Where("? >= ?", bun.Ident(`status.created_at`), time.Now().Add(-1*hours*time.Hour))
+	var duration time.Duration
+
+	for _, cfg := range users {
+		if !strings.HasPrefix(cfg, username) {
+			continue
+		}
+
+		data := strings.SplitN(cfg, ":", 2)
+		if len(data) != 2 {
+			continue
+		}
+
+		if hours, err := strconv.ParseInt(data[1], 10, 64); err == nil && hours != 0 {
+			duration = time.Duration(hours)
+			break
+		}
+	}
+
+	if duration == 0 {
+		return query
+	}
+
+	return query.Where("? >= ?", bun.Ident(`status.created_at`), time.Now().Add(-1*duration*time.Hour))
 }
 
 func (a *accountDB) GetAccountWebStatuses(
