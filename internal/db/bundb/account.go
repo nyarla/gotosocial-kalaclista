@@ -23,6 +23,7 @@ import (
 	"fmt"
 	"net/netip"
 	"slices"
+	"strconv"
 	"strings"
 	"time"
 
@@ -40,6 +41,31 @@ import (
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect"
 )
+
+var _datetimeFilterRules = make(map[string]time.Duration)
+
+func init() {
+	for _, cfg := range config.GetKalaclistaFilterStatusesByDateTime() {
+		data := strings.SplitN(cfg, ":", 2)
+		if len(data) != 2 {
+			continue
+		}
+
+		username, duration := data[0], data[1]
+
+		if username == "" {
+			continue
+		}
+
+		if duration == "" {
+			continue
+		}
+
+		if hours, err := strconv.ParseInt(duration, 10, 64); err == nil && hours != 0 {
+			_datetimeFilterRules[username] = time.Duration(hours)
+		}
+	}
+}
 
 type accountDB struct {
 	db    *bun.DB
@@ -1187,6 +1213,15 @@ func (a *accountDB) accountWebStatusesCommonSelect(
 	return q
 }
 
+func (a *accountDB) applyDatetimeFilter(username string, query *bun.SelectQuery) *bun.SelectQuery {
+	hours, ok := _datetimeFilterRules[username]
+	if !ok {
+		return query
+	}
+
+	return query.Where("? >= ?", bun.Ident(`status.created_at`), time.Now().Add(-1*hours*time.Hour))
+}
+
 func (a *accountDB) GetAccountWebStatuses(
 	ctx context.Context,
 	account *gtsmodel.Account,
@@ -1228,12 +1263,12 @@ func (a *accountDB) GetAccountWebStatuses(
 			// Use the common select query
 			// for just public web statuses.
 			func(q *bun.SelectQuery) (*bun.SelectQuery, error) {
-				return a.accountWebStatusesCommonSelect(
+				return a.applyDatetimeFilter(account.Username, a.accountWebStatusesCommonSelect(
 					account.ID,
 					mediaOnly,
 					includeBoosts,
 					gtsmodel.VisibilityPublic,
-				), nil
+				)), nil
 			},
 		)
 	}
@@ -1269,6 +1304,9 @@ func (a *accountDB) GetAccountWebStatuses(
 		includeBoosts,
 		gtsmodel.VisibilityUnlocked,
 	)
+
+	q1 = a.applyDatetimeFilter(account.Username, q1)
+	q2 = a.applyDatetimeFilter(account.Username, q2)
 
 	// Apply max/min ID boundaries
 	// to both sides of the union.
